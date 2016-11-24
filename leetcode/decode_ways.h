@@ -1,7 +1,7 @@
 #ifndef DECODE_WAYS_H
 #define DECODE_WAYS_H
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class Solution {

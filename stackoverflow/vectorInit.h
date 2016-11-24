@@ -1,7 +1,7 @@
 #ifndef _VECTOR_INIT_H_
 #define _VECTOR_INIT_H_
 
-#include "CommonDataStructure.h"
+#include "common.h"
 
 class Solution {
 
@@ -15,7 +15,7 @@ float viewerMatrix[4][4] =
 
 public:
 
-void testCase1() {
+void test_case1() {
     int *p = NULL; std::cout << sizeof(p) << std::endl;
     std::cout << sizeof(viewerMatrix) << std::endl;
     std::cout << sizeof(viewerMatrix[0]) << std::endl;

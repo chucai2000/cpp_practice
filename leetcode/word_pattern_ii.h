@@ -1,7 +1,7 @@
 #ifndef WORD_PATTERN_II_H
 #define WORD_PATTERN_II_H
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class Solution {

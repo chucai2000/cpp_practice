@@ -1,7 +1,7 @@
 #ifndef K_MEANS_H
 #define K_MEANS_H
 
-#include <CommonDataStructure.h>
+#include <common.h>
 
 struct Point {
     float x;

@@ -1,7 +1,7 @@
 #ifndef _EXAMPLE_H_
 #define _EXAMPLE_H_
 	
-#include "CommonDataStructure.h"
+#include "common.h"
 
 using namespace std;
 
@@ -70,7 +70,7 @@ printf("2\n");
         return pureDigits(pureDigitsPortion, sign);
     }
 
-    void testCase1() {
+    void test_case1() {
         string str = "-2147483647";
         std::cout << myAtoi(str) << std::endl;
     }

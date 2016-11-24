@@ -1,7 +1,7 @@
 #ifndef _LRU_H_
 #define _LRU_H_
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class LRUCache{

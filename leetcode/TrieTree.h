@@ -1,7 +1,7 @@
 #ifndef _TRIE_TREE_H_
 #define _TRIE_TREE_H_
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class TrieNode {

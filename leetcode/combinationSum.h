@@ -1,7 +1,7 @@
 #ifndef COMBINATION_SUM_H
 #define COMBINATION_SUM_H
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class Solution {

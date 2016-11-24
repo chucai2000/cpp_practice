@@ -1,7 +1,7 @@
 #ifndef LVP_H
 #define LVP_H
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class Solution {

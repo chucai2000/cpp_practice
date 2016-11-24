@@ -1,7 +1,7 @@
 #ifndef ALL_ONE_H
 #define ALL_ONE_H
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class AllOne {

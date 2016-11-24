@@ -1,7 +1,7 @@
 #ifndef _REG_EXPR_H_
 #define _REG_EXPR_H_
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class Solution {

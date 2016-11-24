@@ -1,7 +1,7 @@
 #ifndef _EXAMPLE_H_
 #define _EXAMPLE_H_
 
-#include "CommonDataStructure.h"
+#include "common.h"
 using namespace std;
 
 class Solution {

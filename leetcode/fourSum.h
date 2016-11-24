@@ -1,4 +1,4 @@
-#include <CommonDataStructure.h>
+#include <common.h>
 using namespace std;
 
 class Solution {
@@ -39,7 +39,7 @@ public:
         return results;
     }
 
-    void testCase1() {
+    void test_case1() {
         vector<int> nums = {-1,0,-5,-2,-2,-4,0,1,-2};
         vector<vector<int> > results = fourSum(nums, -9);
         std::cout << "++++RESULTS+++" << std::endl;
