@@ -1,8 +1,7 @@
-#ifndef DECODE_WAYS_H
-#define DECODE_WAYS_H
-
 #include "common.h"
 using namespace std;
+
+namespace decode_ways {
 
 class Solution {
 public:
@@ -18,7 +17,7 @@ public:
         return (num>=1 && num<=26);
     }
 
-    int numDecodings(string s) {
+    int num_decodings(string s) {
 
         vector<int> dp(s.size()+1, 0);
 
@@ -49,9 +48,9 @@ public:
 
     void test_case1() {
         string s("213");
-        int result = numDecodings(s);
+        int result = num_decodings(s);
         cout << "result = " << result << endl;
     }
 };
 
-#endif
+}

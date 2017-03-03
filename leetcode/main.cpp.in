@@ -1,0 +1,8 @@
+@LIST_OF_INCLUDES@
+
+int main(int argc, char *argv[])
+{
+@LIST_OF_SOLUTIONS@
+
+    return 0;
+}

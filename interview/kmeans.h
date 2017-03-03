@@ -1,23 +1,23 @@
-#ifndef K_MEANS_H
-#define K_MEANS_H
+#include "common.h"
 
-#include <common.h>
+namespace kmeans {
 
 struct Point {
+
     float x;
     float y;
 
     Point() {}
-    Point(const float xVal, const float yVal) : x(xVal), y(yVal) {}
-    Point(const Point &anotherPoint) : x(anotherPoint.x), y(anotherPoint.y) {}
+    Point(const float x_val, const float y_val) : x(x_val), y(y_val) {}
+    Point(const Point &another_point) : x(another_point.x), y(another_point.y) {}
 
-    float distance(const Point &anotherPoint) const {
-        return std::sqrt((x - anotherPoint.x) * (x - anotherPoint.x) +
-                         (y - anotherPoint.y) * (y - anotherPoint.y));
+    float distance(const Point &another_point) const {
+        return std::sqrt((x - another_point.x) * (x - another_point.x) +
+                         (y - another_point.y) * (y - another_point.y));
     }
 
-    Point operator+(const Point &anotherPoint) {
-        return Point(x+anotherPoint.x, y+anotherPoint.y);
+    Point operator+(const Point &another_point) {
+        return Point(x+another_point.x, y+another_point.y);
     }
 
     Point operator*(const float scalor) {
@@ -27,37 +27,38 @@ struct Point {
 
 class KMeans{
 public:
+
     KMeans() {}
 
-    KMeans(const int numOfIterations) : mNumOfIterations(numOfIterations) {}
+    KMeans(const int num_of_iterations) : m_num_of_iterations(num_of_iterations) {}
 
-    KMeans(const std::vector<Point> &points, const unsigned int &kValue) : mPoints(points), mKvalue(kValue), mCenters(kValue, Point())
+    KMeans(const std::vector<Point> &points, const unsigned int &k_value) : m_points(points), m_kvalue(k_value), m_centers(k_value, Point())
     {}
 
     void clear() {
-        mPoints.clear();
-        mCenters.clear();
+        m_points.clear();
+        m_centers.clear();
     }
 
-    void setPoints(const std::vector<Point> &points) {
-        mPoints = points;
+    void set_points(const std::vector<Point> &points) {
+        m_points = points;
     }
 
-    void setKVal(const unsigned int &K) {
-        mKvalue = K;
-        mCenters.clear();
-        mCenters.resize(K);
+    void set_kval(const unsigned int &K) {
+        m_kvalue = K;
+        m_centers.clear();
+        m_centers.resize(K);
     }
 
-    void setNumOfIterations(const int numOfIterations) {
-        mNumOfIterations = numOfIterations;
+    void set_num_of_iterations(const int num_of_iterations) {
+        m_num_of_iterations = num_of_iterations;
     }
 
     void compute() {
-        getInitialPoints();
-        shiftCenters();
+        get_initial_points();
+        shift_centers();
 
-        for (Point pt : mCenters) {
+        for (Point pt : m_centers) {
             std::cout << "x = " << pt.x << " y = " << pt.y << std::endl;
         }
     }
@@ -65,136 +66,137 @@ public:
     void test_case1() {
         std::random_device rd;
         std::mt19937 engine(rd());
-        std::normal_distribution<float> normMeanPosOne(10., 0.05);
-        std::normal_distribution<float> normMeanNegOne(-10., 0.05);
+        std::normal_distribution<float> norm_mean_pos_one(10., 0.05);
+        std::normal_distribution<float> norm_mean_neg_one(-10., 0.05);
 
         std::vector<Point> points;
-        unsigned int numOfPointsPerCluster = 100;
-        for (unsigned int i = 0; i < numOfPointsPerCluster; ++i) {
-            points.push_back(Point(normMeanPosOne(engine), normMeanPosOne(engine)));
+        unsigned int num_of_points_per_cluster = 100;
+        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
+            points.push_back(Point(norm_mean_pos_one(engine), norm_mean_pos_one(engine)));
         }
-        for (unsigned int i = 0; i < numOfPointsPerCluster; ++i) {
-            points.push_back(Point(normMeanNegOne(engine), normMeanPosOne(engine)));
+        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
+            points.push_back(Point(norm_mean_neg_one(engine), norm_mean_pos_one(engine)));
         }
-        for (unsigned int i = 0; i < numOfPointsPerCluster; ++i) {
-            points.push_back(Point(normMeanNegOne(engine), normMeanNegOne(engine)));
+        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
+            points.push_back(Point(norm_mean_neg_one(engine), norm_mean_neg_one(engine)));
         }
-        for (unsigned int i = 0; i < numOfPointsPerCluster; ++i) {
-            points.push_back(Point(normMeanPosOne(engine), normMeanNegOne(engine)));
+        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
+            points.push_back(Point(norm_mean_pos_one(engine), norm_mean_neg_one(engine)));
         }
 
-        this->setPoints(points);
-        this->setKVal(5);
-        this->setNumOfIterations(1000);
+        this->set_points(points);
+        this->set_kval(5);
+        this->set_num_of_iterations(1000);
 
         this->compute();
     }
 
 private:
 
-    std::vector<std::pair<float,unsigned int>> calcDistFromAllPointsTo(const Point &target) {
-        std::vector<std::pair<float,unsigned int>> distsFromAllPointsToOnePoint(mPoints.size());
-        for (size_t pIdx = 0; pIdx < mPoints.size(); ++pIdx) {
-            distsFromAllPointsToOnePoint[pIdx] = std::make_pair(target.distance(mPoints[pIdx]), pIdx);
+    std::vector<std::pair<float,unsigned int>> calc_dist_from_all_points_to(const Point &target) {
+        std::vector<std::pair<float,unsigned int>> dists_from_all_points_to_one_point(m_points.size());
+        for (size_t p_idx = 0; p_idx < m_points.size(); ++p_idx) {
+            dists_from_all_points_to_one_point[p_idx] = std::make_pair(target.distance(m_points[p_idx]), p_idx);
         }
-        return distsFromAllPointsToOnePoint;
+        return dists_from_all_points_to_one_point;
     }
 
-    std::vector<std::pair<float,unsigned int>> calcDistFromAllPointsToNearestOf(const std::vector<Point> &targets) {
-        std::vector<std::pair<float,unsigned int>> distsFromAllPointsToOnePoint(mPoints.size());
-        for (size_t pIdx = 0; pIdx < mPoints.size(); ++pIdx) {
-            distsFromAllPointsToOnePoint[pIdx].first = std::numeric_limits<float>::max();
-            for (size_t tIdx = 0; tIdx < targets.size(); ++tIdx) {
-                float curDist = targets[tIdx].distance(mPoints[pIdx]);
-                if (curDist < distsFromAllPointsToOnePoint[pIdx].first) {
-                    distsFromAllPointsToOnePoint[pIdx] = std::make_pair(curDist, pIdx);
+    std::vector<std::pair<float,unsigned int>> calc_dist_from_all_points_toNearestOf(const std::vector<Point> &targets) {
+        std::vector<std::pair<float,unsigned int>> dists_from_all_points_to_one_point(m_points.size());
+        for (size_t p_idx = 0; p_idx < m_points.size(); ++p_idx) {
+            dists_from_all_points_to_one_point[p_idx].first = std::numeric_limits<float>::max();
+            for (size_t t_idx = 0; t_idx < targets.size(); ++t_idx) {
+                float cur_dist = targets[t_idx].distance(m_points[p_idx]);
+                if (cur_dist < dists_from_all_points_to_one_point[p_idx].first) {
+                    dists_from_all_points_to_one_point[p_idx] = std::make_pair(cur_dist, p_idx);
                 }
             }
         }
-        return distsFromAllPointsToOnePoint;
+        return dists_from_all_points_to_one_point;
     }
 
-    void getInitialPoints() {
+    void get_initial_points() {
         std::random_device rd;
         std::mt19937 engine(rd());
-        std::vector<unsigned int> indicesOfInitCenters;
-        std::uniform_int_distribution<unsigned int> uniIntDistribution(0, mPoints.size()-1);
-        unsigned int firstIndex = uniIntDistribution(engine); indicesOfInitCenters.push_back(firstIndex);
+        std::vector<unsigned int> indices_of_init_centers;
+        std::uniform_int_distribution<unsigned int> uni_int_distribution(0, m_points.size()-1);
+        unsigned int first_index = uni_int_distribution(engine); indices_of_init_centers.push_back(first_index);
 
-        std::uniform_real_distribution<float> uniFloatDistribution(0.0, 1.0);
-        for (unsigned int iter = 1; iter < mKvalue; ++iter) {
-            std::vector<std::pair<float,unsigned int>> distsFromAllPointsToNearestPoints = calcDistFromAllPointsToNearestOf(mCenters);
-            //std::sort(distsFromAllPointsToNearestPoints.begin(), distsFromAllPointsToNearestPoints.end(),
-            //          [](const std::pair<float,unsigned int> &p1, const std::pair<float,unsigned int> &p2) {
-            //                return p1.first < p2.first;
-            //            }
-            //          );
+        std::uniform_real_distribution<float> uni_float_distribution(0.0, 1.0);
+        for (unsigned int iter = 1; iter < m_kvalue; ++iter) {
+            std::vector<std::pair<float,unsigned int>> dists_from_all_points_to_nearest_points = calc_dist_from_all_points_toNearestOf(m_centers);
+            std::sort(dists_from_all_points_to_nearest_points.begin(), dists_from_all_points_to_nearest_points.end(),
+                      [](const std::pair<float,unsigned int> &p1, const std::pair<float,unsigned int> &p2) {
+                            return p1.first < p2.first;
+                        }
+                      );
 
-            std::transform(distsFromAllPointsToNearestPoints.begin(), distsFromAllPointsToNearestPoints.end(), distsFromAllPointsToNearestPoints.begin(),
+            std::transform(dists_from_all_points_to_nearest_points.begin(), dists_from_all_points_to_nearest_points.end(), dists_from_all_points_to_nearest_points.begin(),
                            [](const std::pair<float,unsigned int> &ele){return std::make_pair(ele.first*ele.first, ele.second);});
 
-            float sumOfSquiredDistances = std::accumulate(distsFromAllPointsToNearestPoints.begin(), distsFromAllPointsToNearestPoints.end(), 0.0,
+            float sum_of_squired_distances = std::accumulate(dists_from_all_points_to_nearest_points.begin(), dists_from_all_points_to_nearest_points.end(), 0.0,
                                                           [](const float &p1, const std::pair<float,unsigned int> &p2) {
                                                                 return p1 + p2.first;
                                                             });
 
-            std::transform(distsFromAllPointsToNearestPoints.begin(), distsFromAllPointsToNearestPoints.end(), distsFromAllPointsToNearestPoints.begin(),
-                           [sumOfSquiredDistances](const std::pair<float,unsigned int> &ele){return std::make_pair(ele.first / sumOfSquiredDistances, ele.second);});
+            std::transform(dists_from_all_points_to_nearest_points.begin(), dists_from_all_points_to_nearest_points.end(), dists_from_all_points_to_nearest_points.begin(),
+                           [sum_of_squired_distances](const std::pair<float,unsigned int> &ele){return std::make_pair(ele.first / sum_of_squired_distances, ele.second);});
 
 
-            float randFloatVal = uniFloatDistribution(engine);
-            float accumProb = 0.0;
-            for (size_t idx = 0; idx < distsFromAllPointsToNearestPoints.size(); ++idx) {
-                accumProb += distsFromAllPointsToNearestPoints[idx].first;
-                if (accumProb > randFloatVal) {
-                    indicesOfInitCenters.push_back(distsFromAllPointsToNearestPoints[idx].second);
+            float rand_float_val = uni_float_distribution(engine);
+            float accum_prob = 0.0;
+            for (size_t idx = 0; idx < dists_from_all_points_to_nearest_points.size(); ++idx) {
+                accum_prob += dists_from_all_points_to_nearest_points[idx].first;
+                if (accum_prob > rand_float_val) {
+                    indices_of_init_centers.push_back(dists_from_all_points_to_nearest_points[idx].second);
                     break;
                 }
             }
         }
 
-        mCenters.clear();
-        mCenters.resize(mKvalue);
-        for (size_t idx = 0; idx < indicesOfInitCenters.size(); ++idx) {
-            mCenters[idx] = mPoints[indicesOfInitCenters[idx]];
+        m_centers.clear();
+        m_centers.resize(m_kvalue);
+        for (size_t idx = 0; idx < indices_of_init_centers.size(); ++idx) {
+            m_centers[idx] = m_points[indices_of_init_centers[idx]];
         }
 
     }
 
-    void shiftCenters() {
+    void shift_centers() {
 
-        int countIter = 0;
-        while (countIter < mNumOfIterations) {
+        int count_iter = 0;
+        while (count_iter < m_num_of_iterations) {
 
-            std::vector<Point> updatedCenters(mKvalue, Point(0.0, 0.0));
-            for (size_t cIdx = 0; cIdx < mKvalue; ++cIdx) {
+            std::vector<Point> updated_centers(m_kvalue, Point(0.0, 0.0));
+            for (size_t c_idx = 0; c_idx < m_kvalue; ++c_idx) {
 
-                std::vector<std::pair<float,unsigned int>> distsFromAllPointsToOnePoint = calcDistFromAllPointsTo(mCenters[cIdx]);
+                std::vector<std::pair<float,unsigned int>> dists_from_all_points_to_one_point = calc_dist_from_all_points_to(m_centers[c_idx]);
 
-                float sumOfAllDistances = std::accumulate(distsFromAllPointsToOnePoint.begin(), distsFromAllPointsToOnePoint.end(), 0.0,
+                float sum_of_all_distances = std::accumulate(dists_from_all_points_to_one_point.begin(), dists_from_all_points_to_one_point.end(), 0.0,
                                                           [](const float &p1, const std::pair<float,unsigned int> &p2) {
                                                                 return p1 + p2.first;
                                                             }
                                                           );
-                if (sumOfAllDistances == 0) {
+                if (sum_of_all_distances == 0) {
                     continue;
                 }
 
-                for (size_t pIdx = 0; pIdx < mPoints.size(); ++pIdx) {
-                    updatedCenters[cIdx] = updatedCenters[cIdx] + mPoints[pIdx] * (distsFromAllPointsToOnePoint[pIdx].first / sumOfAllDistances);
+                for (size_t p_idx = 0; p_idx < m_points.size(); ++p_idx) {
+                    updated_centers[c_idx] = updated_centers[c_idx] + m_points[p_idx] * (dists_from_all_points_to_one_point[p_idx].first / sum_of_all_distances);
                 }
             }
 
-            ++countIter;
+            ++count_iter;
         }
     }
 
 
 private:
-    std::vector<Point> mPoints;
-    unsigned int mKvalue;
-    std::vector<Point> mCenters;
-    int mNumOfIterations;
+    std::vector<Point> m_points;
+    unsigned int m_kvalue;
+    std::vector<Point> m_centers;
+    int m_num_of_iterations;
 };
 
-#endif
+
+}

@@ -1,8 +1,7 @@
-#ifndef LVP_H
-#define LVP_H
-
 #include "common.h"
 using namespace std;
+
+namespace longest_valid_parenthese {
 
 class Solution {
 public:
@@ -12,17 +11,17 @@ public:
         if (s.length() == 0) return 0;
         //s.push_back('(');
 
-        int lastInvalid = -1;
+        int last_invalid = -1;
         stack<int> stk;
         int len = 0;
         for (int i = 0; i < s.length(); i++) {
             /*if (stk.empty() && s[i] == ')') {
-                len = (i - lastInvalid - 1 > len) ? i - lastInvalid - 1 : len;
-                lastInvalid = i;
+                len = (i - last_invalid - 1 > len) ? i - last_invalid - 1 : len;
+                last_invalid = i;
             }*/
             if (stk.empty()) {
-                len = (i - lastInvalid - 1 > len) ? i - lastInvalid - 1 : len;
-                if (s[i] == ')') lastInvalid = i;
+                len = (i - last_invalid - 1 > len) ? i - last_invalid - 1 : len;
+                if (s[i] == ')') last_invalid = i;
             }
 
             if (s[i] == '(') {
@@ -34,38 +33,38 @@ public:
             }
         }
 
-        /*int stackBottom = -1;
+        /*int stack_bottom = -1;
         while (!stk.empty()) {
-            stackBottom = stk.top();
+            stack_bottom = stk.top();
             stk.pop();
         }
-        len = (stackBottom - lastInvalid - 1 > len) ? stackBottom - lastInvalid - 1 : len;*/
+        len = (stack_bottom - last_invalid - 1 > len) ? stack_bottom - last_invalid - 1 : len;*/
         if (stk.empty()) {
-            len = (s.length() - lastInvalid - 1 > len) ? s.length() - lastInvalid - 1: len;
+            len = (s.length() - last_invalid - 1 > len) ? s.length() - last_invalid - 1: len;
         }
 
         return len;
     }
 
-    int longestValidParentheses(string s) {
+    int longest_valid_parentheses(string s) {
         int len1 = lvp(s);
         cout << "len1 = " << len1 << endl;
-        string sRev; sRev.resize(s.length());
-        reverse_copy(s.begin(), s.end(), sRev.begin());
-        for (int i = 0; i < sRev.length(); i++) {
-            if (sRev[i] == '(') sRev[i] = ')';
-            else if (sRev[i] == ')') sRev[i] = '(';
+        string s_rev; s_rev.resize(s.length());
+        reverse_copy(s.begin(), s.end(), s_rev.begin());
+        for (int i = 0; i < s_rev.length(); i++) {
+            if (s_rev[i] == '(') s_rev[i] = ')';
+            else if (s_rev[i] == ')') s_rev[i] = '(';
         }
-        int len2 = lvp(sRev);
+        int len2 = lvp(s_rev);
         cout << "len2 = " << len2 << endl;
         return (len1<len2) ? len2 : len1;
     }
 
     void test_case1() {
         std::string str = "()()";
-        int len = longestValidParentheses(str);
+        int len = longest_valid_parentheses(str);
         printf("len=%d\n", len);
     }
 };
 
-#endif
+}

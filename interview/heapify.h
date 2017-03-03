@@ -1,8 +1,7 @@
-#include <stdlib.h>
-#include <iostream>
+#include "common.h"
 using namespace std;
 
-namespace HEAPIFY {
+namespace heapify {
     
 void heapify(int A[], int size, int i) {
 
@@ -28,19 +27,22 @@ void heapify(int A[], int size, int i) {
 
 }
 
-void buildHeap(int A[], int size) {
+void build_heap(int A[], int size) {
     for (int i = (size-1)/2; i >= 0; i--)
         heapify(A, size, i);
 }
 
-void test_case1()
+class Solution
 {
-    int A[] = {5, 4, 1, 0, -2, 15, 8, 4, 9, 7, 21};
-    buildHeap(A, 11);
-    for (int i = 0; i < 11; i ++) {
-        cout << A[i] << " ";
+public:
+    void test_case1() {
+        int A[] = {5, 4, 1, 0, -2, 15, 8, 4, 9, 7, 21};
+        build_heap(A, 11);
+        for (int i = 0; i < 11; i ++) {
+            cout << A[i] << " ";
+        }
+        printf("\n");
     }
-    printf("\n");    
-    
-}
+};
+
 }
