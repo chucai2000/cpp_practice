@@ -1,13 +1,12 @@
 #include "common.h"
-using namespace std;
 
 namespace split_merged_documents {
 
 #define MAX_VALUE 100000
 
-map<string, bool> dictionary;
+std::map<std::string, bool> dictionary;
 
-void Solve(string &sentence)
+void Solve(std::string &sentence)
 {
 	int LEN = sentence.size();
 	int *DP = (int*)malloc(sizeof(int)*(LEN+1));
@@ -22,7 +21,7 @@ void Solve(string &sentence)
 		
 	for (i = LEN-1; i>=0 ; i--){
 		for (j=i+1; j<LEN+1; j++){
-			string candidate;
+            std::string candidate;
 			if (j==LEN)
 				candidate = sentence.substr(i);
 			else
@@ -41,19 +40,19 @@ void Solve(string &sentence)
 	}
 
 	for (i=0;i<LEN;i++)
-		printf("%d,",DP[i]);
-	printf("\n");
+        std::cout << DP[i] << ",";
+    std::cout << std::endl;
 	for (i=0;i<LEN;i++)
-		printf("%d,",next[i]);
-	printf("\n");
+        std::cout << next[i] << ",";
+    std::cout << std::endl;
 
-	printf("Incorrect word #: %d\n", DP[0]);
+    std::cout << "Incorrect word #: " << DP[0] << std::endl;
 	i = 0;
 	while (i != -1){
 		if (next[i] != -1)
-			printf("%s\n", sentence.substr(i, next[i]-i).c_str());
+            std::cout << sentence.substr(i, next[i]-i).c_str() << std::endl;
 		else
-			printf("%s\n", sentence.substr(i).c_str());
+            std::cout << sentence.substr(i).c_str() << std::endl;
 		i = next[i];
 	}
 	
@@ -62,23 +61,5 @@ void Solve(string &sentence)
 		DP = NULL;
 	}
 }
-
-class Solution {
-public:
-    void test_case1()
-    {
-        dictionary["i"] = true;
-        dictionary["want"] = true;
-        dictionary["to"] = true;
-        dictionary["go"] = true;
-        dictionary["home"] = true;
-        dictionary["tomorrow"] = true;
-        dictionary["row"] = true;
-
-        string sentence = "iwanttogohometomorrow";
-        Solve(sentence);
-    }
-
-};
 
 }

@@ -6,8 +6,23 @@ struct Node{
     int val;
     Node *left;
     Node *right;
-    Node(int _input_val) :val(_input_val)
+
+    Node(): val(0), left(nullptr), right(nullptr)
     {}
+
+    Node(int val): val(val), left(nullptr), right(nullptr)
+    {}
+
+    ~Node() {
+        if (!left) {
+            delete left;
+            left = nullptr;
+        }
+        if (!right) {
+            delete right;
+            right = nullptr;
+        }
+    }
 };
 
 const int MAX = 256;
@@ -44,10 +59,5 @@ Node *build_inorder_postorder(int in[], int post[], int n, int offset) {
   root->right = build_inorder_postorder(in+i+1, post+i, n-i-1, offset+i+1);
   return root;
 }
-
-class Solution {
-public:
-    void test_case1() {}
-};
 
 }

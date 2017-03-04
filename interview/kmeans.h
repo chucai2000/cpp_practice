@@ -58,37 +58,10 @@ public:
         get_initial_points();
         shift_centers();
 
+        std::cout << "kmeans centers are: " << std::endl;
         for (Point pt : m_centers) {
             std::cout << "x = " << pt.x << " y = " << pt.y << std::endl;
         }
-    }
-
-    void test_case1() {
-        std::random_device rd;
-        std::mt19937 engine(rd());
-        std::normal_distribution<float> norm_mean_pos_one(10., 0.05);
-        std::normal_distribution<float> norm_mean_neg_one(-10., 0.05);
-
-        std::vector<Point> points;
-        unsigned int num_of_points_per_cluster = 100;
-        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
-            points.push_back(Point(norm_mean_pos_one(engine), norm_mean_pos_one(engine)));
-        }
-        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
-            points.push_back(Point(norm_mean_neg_one(engine), norm_mean_pos_one(engine)));
-        }
-        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
-            points.push_back(Point(norm_mean_neg_one(engine), norm_mean_neg_one(engine)));
-        }
-        for (unsigned int i = 0; i < num_of_points_per_cluster; ++i) {
-            points.push_back(Point(norm_mean_pos_one(engine), norm_mean_neg_one(engine)));
-        }
-
-        this->set_points(points);
-        this->set_kval(5);
-        this->set_num_of_iterations(1000);
-
-        this->compute();
     }
 
 private:

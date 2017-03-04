@@ -21,112 +21,99 @@ using namespace std;
 
 namespace word_ladder {
 
-class Solution {
+vector< string > find_neighbors(string str, unordered_set<string> &visited, unordered_set<string> &dict)
+{
+    unsigned int i;
+    char j;
+    vector<string> str_neighbors;
 
-public:
+    for (i = 0; i < str.size(); i++){
+        for (j = 'a'; j <= 'z'; j++){
+            if (str[i] == j)
+                continue;
+            char tmp = str[i];
+            str[i] = j;
 
-	vector<vector<string>> find_ladders(string start, string end, unordered_set<string> &dict) {
-		
-		// build two queues to represent two levels
-		unordered_set<string> current, next;
-		unordered_map<string, vector<string>> parent;
-		unordered_set<string> visited;
-		bool found = false;
-		vector< vector<string> > results;
-
-		current.insert(start);
-
-		while (!current.empty() && !found){
-
-			// mark the strings in current set as visited strings
-			for (auto itr = current.begin(); itr != current.end(); itr++)
-				visited.insert(*itr);
-
-			// iteratively processing each neighbor of the strings in current set
-			for (auto itr = current.begin(); itr != current.end(); itr++){
-				string str = *itr;
-				vector< string > str_neighbors = find_neighbors(str, visited, dict);
-				for (int i = 0; i < str_neighbors.size(); i++){
-					string &str_n = str_neighbors[i];
-					parent[str_n].push_back(str);
-					if (!str_n.compare(end))
-						found = true;
-					next.insert(str_n);
-				}
-
-			}
-
-			current.clear();
-			swap(current, next);
-
-		}
-
-		// if finding the end string, then build the paths by using the "parent" map
-		if (found){ 
-			vector<string> path;
-			build_path(parent, start, end, path, results);
-		}
-
-		return results;
-	}
-
-private:
-	vector< string > find_neighbors(string str, unordered_set<string> &visited, unordered_set<string> &dict)
-	{
-		int i, j;
-		vector<string> str_neighbors;
-
-		for (i = 0; i < str.size(); i++){
-			for (j = 'a'; j <= 'z'; j++){
-				if (str[i] == j)
-					continue;
-				char tmp = str[i];
-				str[i] = j;
-
-				// not yet be visited, and in the dictionary
-				if (visited.count(str) == 0 && dict.count(str) != 0)
-					str_neighbors.push_back(str);
-				str[i] = tmp;
-			}
-		}
-
-		return str_neighbors;
-	}
-
-	void build_path(
-		unordered_map<string, vector<string>> &parent,
-		string &start,
-		string &end,
-		vector<string> &path,
-		vector<vector<string>> &results
-		) // DFS scheme
-	{
-		// base
-		if (!start.compare(end)){
-			path.push_back(start);
-			reverse(path.begin(), path.end());
-			results.push_back(path);
-			reverse(path.begin(), path.end());
-			path.pop_back();
-			return;
-		}
-
-		// recursive search
-		path.push_back(end);
-		vector<string> &pr = parent[end];
-		for (int i = 0; i < pr.size(); i++){
-			build_path(parent, start, pr[i], path, results);
-		}
-		path.pop_back();
-	}
-
-public:
-    int test_case1()
-    {
-        return 0;
+            // not yet be visited, and in the dictionary
+            if (visited.count(str) == 0 && dict.count(str) != 0)
+                str_neighbors.push_back(str);
+            str[i] = tmp;
+        }
     }
-};
 
+    return str_neighbors;
+}
 
+void build_path(
+    unordered_map<string, vector<string>> &parent,
+    string &start,
+    string &end,
+    vector<string> &path,
+    vector<vector<string>> &results
+    ) // DFS scheme
+{
+    // base
+    if (!start.compare(end)){
+        path.push_back(start);
+        reverse(path.begin(), path.end());
+        results.push_back(path);
+        reverse(path.begin(), path.end());
+        path.pop_back();
+        return;
+    }
+
+    // recursive search
+    path.push_back(end);
+    vector<string> &pr = parent[end];
+    for (unsigned int i = 0; i < pr.size(); i++){
+        build_path(parent, start, pr[i], path, results);
+    }
+    path.pop_back();
+}
+
+vector<vector<string>> find_ladders(string start, string end, unordered_set<string> &dict) {
+
+    // build two queues to represent two levels
+    unordered_set<string> current, next;
+    unordered_map<string, vector<string>> parent;
+    unordered_set<string> visited;
+    bool found = false;
+    vector< vector<string> > results;
+
+    current.insert(start);
+
+    while (!current.empty() && !found){
+
+        // mark the strings in current set as visited strings
+        for (auto itr = current.begin(); itr != current.end(); itr++)
+            visited.insert(*itr);
+
+        // iteratively processing each neighbor of the strings in current set
+        for (auto itr = current.begin(); itr != current.end(); itr++){
+            string str = *itr;
+            vector< string > str_neighbors = find_neighbors(str, visited, dict);
+            for (unsigned int i = 0; i < str_neighbors.size(); i++){
+                string &str_n = str_neighbors[i];
+                parent[str_n].push_back(str);
+                if (!str_n.compare(end))
+                    found = true;
+                next.insert(str_n);
+            }
+
+        }
+
+        current.clear();
+        swap(current, next);
+
+    }
+
+    // if finding the end string, then build the paths by using the "parent" map
+    if (found){
+        vector<string> path;
+        build_path(parent, start, end, path, results);
+    }
+
+    return results;
+}
 
 }

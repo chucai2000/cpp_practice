@@ -7,6 +7,9 @@ struct Node
 {
 	int value;
 	Node *next;
+
+    Node() : value(0), next(nullptr) {}
+    Node(int value) : value(value), next(nullptr) {}
 };
 
 void rmv_dup_from_list(Node *list_head)
@@ -35,25 +38,19 @@ void rmv_dup_from_sorted_list(Node *list_head)
 		return;
 	
 	Node *q = p->next;
-	while (!p){
+    while (p){
 		while (q && q->value == p->value){
 			q = q->next;
 		}
 		if (!q)
-			return;
+            break;
 		else{
 			p->next = q;
 			p = q;
 			q = q->next;
 		}
 	}
+    p->next = q;
 }
-
-class Solution
-{
-public:
-    void test_case1() {}
-
-};
 
 }

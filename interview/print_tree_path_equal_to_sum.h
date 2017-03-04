@@ -8,41 +8,47 @@ struct Node
 	int value;
 	Node *left;
 	Node *right;
-};
 
-class Solution {
+    Node(): value(0), left(nullptr), right(nullptr)
+    {}
 
-    void print_specific_tree_path(Node *node, vector<Node*> &path, int &sum)
-    {
-        if (node == NULL)
-            return;
+    Node(int val): value(val), left(nullptr), right(nullptr)
+    {}
 
-        path.push_back(node);
-        sum -= node->value;
-        if (node->left==NULL && node->right==NULL && sum==0){
-            // output path
+    ~Node() {
+        if (!left) {
+            delete left;
+            left = nullptr;
         }
-
-        print_specific_tree_path(node->left, path, sum);
-        print_specific_tree_path(node->right, path, sum);
-
-        sum += node->value;
-        path.pop_back();
-
-        return;
+        if (!right) {
+            delete right;
+            right = nullptr;
+        }
     }
-
-    void main_func(Node *root_node, int sum)
-    {
-        vector<Node*> path;
-        print_specific_tree_path(root_node, path, sum);
-    }
-
-public:
-    void test_case1() {
-
-    }
-
 };
+
+void print_specific_tree_path(Node *node, vector<Node*> &path, int &sum)
+{
+    if (node == NULL)
+        return;
+
+    path.push_back(node);
+    sum -= node->value;
+    if (node->left==NULL && node->right==NULL && sum==0){
+        // output path
+        for (Node* const & cur : path) {
+            std::cout << cur->value << " " << std::endl;
+        }
+        std::cout << "#" << std::endl;
+    }
+
+    print_specific_tree_path(node->left, path, sum);
+    print_specific_tree_path(node->right, path, sum);
+
+    sum += node->value;
+    path.pop_back();
+
+    return;
+}
 
 }

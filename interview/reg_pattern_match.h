@@ -91,23 +91,4 @@ bool reg_match(string src, char pattern)
     return reg_match(src, sz_pattern);
 }
 
-class Solution {
-public:
-    void test_case1()
-    {
-        string src, pattern;
-        bool result;
-
-        src = "abcde";
-        pattern = "b?bb..e";
-        result = reg_match(src, pattern);
-        std::cout << result << std::endl;
-
-        src = "abcde";
-        pattern = "abs?c.*";
-        result = reg_match(src, pattern);
-        std::cout << result << std::endl;
-    }
-};
-
 }

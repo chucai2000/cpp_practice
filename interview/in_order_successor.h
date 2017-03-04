@@ -7,10 +7,23 @@ struct Node{
     Node *right;
     Node *parent;
 	int data;
+
+    Node() :left(nullptr), right(nullptr),
+            parent(nullptr), data(0)
+    {}
+
+    Node(int val) : left(nullptr), right(nullptr),
+                    parent(nullptr), data(val)
+    {}
 };
 
 Node* min_value(Node *input) {
-    return NULL;
+    if (!input) return NULL;
+    Node *cur = input;
+    while (cur->left) {
+        cur = cur->left;
+    }
+    return cur;
 }
 
 // with parent

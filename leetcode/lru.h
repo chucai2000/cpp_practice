@@ -53,7 +53,7 @@ public:
 private:
     vector<pair<int, pair<int,int>>> m_buckets;
     unordered_map<int, unsigned int> m_data;
-    int m_count;
+    unsigned int m_count;
 };
 
 class Solution {
@@ -80,7 +80,7 @@ public:
         obj.get(2);
         obj.set(1,1);
         obj.set(4,1);
-        int xx = obj.get(2);
+        std::cout << obj.get(2) << std::endl;
     }
 };
 

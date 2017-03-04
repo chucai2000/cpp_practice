@@ -32,6 +32,12 @@ public:
         vector<int> candidates = {2,3,6,7};
         int target = 7;
         vector<vector<int>> results = combination_sum(candidates, target);
+        for (vector<int> const &result : results) {
+            for (int const &res : result) {
+                std::cout << res << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 };
 
